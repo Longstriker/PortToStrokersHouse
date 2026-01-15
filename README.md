@@ -6,6 +6,6 @@ Simple addon that adds a chat command to port to my primary houose which include
 - All Crafting Stations
 - Transmutation Station
 - Trial Target Dummy
-- Resource Restore Altar
+- Aetherial Well
 
 Use `/stroker` in chat!

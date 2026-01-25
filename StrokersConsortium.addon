@@ -1,10 +1,11 @@
-## Title: PortToStrokersHouse
+## Title: StrokersConsortium
 ## Author: @Longstriker
 ## APIVersion: 101048 101049
-## AddOnVersion: 3
-## Version: 1.1.0
+## Version: 1.2.0
+## SavedVariables: StrokersConsortiumSavedVariables
 
-PortToStrokersHouse.lua
+StrokersConsortium.lua
+bindings.xml
 
 
 # This Add-on is not created by, affiliated with, or sponsored by, ZeniMax Media Inc. or its affiliates.

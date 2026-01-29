@@ -21,3 +21,7 @@ Small feature that adds the ability to keybind the `/encounterlog` command.
 Also alerts to when encounterlog is on or off when entering a dungeon/trial/arena.
 
 Use `/encountertoggle status` to toggle the alert.
+
+## SetCollectionColored
+
+Colors all categories in Set Collection based on completeness

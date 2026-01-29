@@ -4,6 +4,8 @@ StrokersConsortium = {
 
     defaults = {
         status = true,
+        setColorKnown = "66ff66",
+        setColorUnknown = "ff6666",
     },
 }
 
@@ -13,6 +15,8 @@ local function onAddOnLoaded(event, addonName)
     StrokersConsortium.vars = ZO_SavedVars:NewAccountWide("StrokersConsortiumSavedVariables", 1, nil,
         StrokersConsortium.defaults)
 
+    StrokersConsortium.InitSetColors()
+
     SLASH_COMMANDS["/stroker"] = StrokersConsortium.PortToHouse
     SLASH_COMMANDS["/encountertoggle"] = StrokersConsortium.SlashCommandHandler
 
@@ -20,6 +24,37 @@ local function onAddOnLoaded(event, addonName)
     EVENT_MANAGER:RegisterForEvent(StrokersConsortium.name, EVENT_PLAYER_ACTIVATED, StrokersConsortium.OnPlayerActivated)
 
     ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_ENCOUNTER_LOG", "Toggle Encounter Log")
+end
+
+function StrokersConsortium.InitSetColors()
+    StrokersConsortium.colorComplete = ZO_ColorDef:New(StrokersConsortium.vars.setColorKnown)
+    StrokersConsortium.colorIncomplete = ZO_ColorDef:New(StrokersConsortium.vars.setColorUnknown)
+
+    StrokersConsortium.GetTextColor = function(self)
+        local r, g, b, a = self.normalColor:UnpackRGBA()
+        if self.selected then
+            return r, g, b, 0.4
+        elseif self.mouseover then
+            return r, g, b, 0.7
+        end
+        return r, g, b, a
+    end
+
+    SecurePostHook(ITEM_SET_COLLECTIONS_BOOK_KEYBOARD.categoryTree.templateInfo.ZO_TreeStatusLabelSubCategory,
+        "setupFunction",
+        function(node, control, data, open, userRequested, enabled)
+            local unlocked, total = data:GetNumUnlockedAndTotalPieces()
+            local color = (unlocked == total) and StrokersConsortium.colorComplete or StrokersConsortium.colorIncomplete
+
+            ZO_SelectableLabel_SetNormalColor(control, color)
+
+            if control.GetTextColor ~= StrokersConsortium.GetTextColor then
+                control.GetTextColor = StrokersConsortium.GetTextColor
+            end
+
+            control:RefreshTextColor()
+        end
+    )
 end
 
 function StrokersConsortium.PortToHouse()
